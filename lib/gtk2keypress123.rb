@@ -7,8 +7,7 @@ require 'gtk2keypress'
 require 'dynarex'
 
 
-
-class GtkKeyPress123 < Gtk2KeyPress
+class Gtk2KeyPress123 < Gtk2KeyPress
 
   def initialize(timeout: 0.8, notifier: nil, exit_on_success: false, 
                   keywords: nil, terminator: 'qq', debug: false)
@@ -16,22 +15,28 @@ class GtkKeyPress123 < Gtk2KeyPress
     @terminator, @debug = terminator, debug
 
     @h = if keywords then
-
-      obj, _ = RXFHelper.read keywords
-
+    
+      puts 'keywords : ' + keywords.inspect if @debug
+      
+      obj, _ = RXFHelper.read keywords, debug: debug, auto: true
+      
+      puts 'obj: ' + obj.inspect if @debug
+      
       if obj and obj.respond_to? :to_h then
         obj.to_h 
       else
         {}
       end
     end
+    
+    puts '@h: ' + @h.inspect if @debug
 
     @buffer = []
     @timeout, @notifier, @exit = timeout, notifier, exit_on_success
 
     window = Gtk::Window.new 'Gtk2KeyPress123'
 
-    window.add(Gtk::Label.new("Press 1 or more Keys!"))
+    window.add(Gtk::Label.new("Press 1 or more keys!"))
 
     key = super(window)
     window.set_default_size(300, 120).show_all
@@ -93,4 +98,3 @@ class GtkKeyPress123 < Gtk2KeyPress
 
 
 end
-
