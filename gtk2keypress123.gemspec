@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'gtk2keypress123'
-  s.version = '0.1.1'
+  s.version = '0.1.2'
   s.summary = 'A minimal GTK2 app which captures 1 or more key presses ' + 
       'which can trigger outgoing notifications.'
   s.authors = ['James Robertson']

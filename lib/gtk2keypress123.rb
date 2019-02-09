@@ -8,7 +8,8 @@ require 'dynarex'
 
 
 class Gtk2KeyPress123 < Gtk2KeyPress
-
+  using ColouredText
+  
   def initialize(timeout: 0.8, notifier: nil, exit_on_success: false, 
                   keywords: nil, terminator: 'qq', debug: false)
 
@@ -30,7 +31,7 @@ class Gtk2KeyPress123 < Gtk2KeyPress
     end
     
     puts '@h: ' + @h.inspect if @debug
-
+    
     @buffer = []
     @timeout, @notifier, @exit = timeout, notifier, exit_on_success
 
@@ -65,12 +66,16 @@ class Gtk2KeyPress123 < Gtk2KeyPress
 
       if @buffer.length > 0 then
 
+        puts ('buffer: ' + @buffer.inspect).debug if @debug
         destroy(nil) if @h and @terminator == @buffer.join
 
         if @h and @notifier then
           s = @buffer.all? {|x| x.length  < 2} ? '' : ', '          
+          puts ('@h: ' + @h.inspect).debug if @debug
           fqm = @h[@buffer.join(s)]
-          @notifier.notice fqm if fqm
+          puts ('fqm: ' + fqm.strip.inspect).debug if @debug
+          @notifier.notice fqm.strip if fqm
+          #sleep 0.4
         end
 
         @buffer = []
@@ -98,3 +103,4 @@ class Gtk2KeyPress123 < Gtk2KeyPress
 
 
 end
+
